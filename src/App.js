@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import './App.css';
+import Ride from './ride-detail';
 import Login from "./login";
 import List from "./list";
-// import Ride from "./ride-detail";
 
 class App extends Component {
   render() {
@@ -9,6 +10,7 @@ class App extends Component {
       <div className="App">
         <Login />
         <List />
+        <Ride />
       </div>
     );
   }
