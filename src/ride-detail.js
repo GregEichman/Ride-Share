@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 class Ride extends Component {
 	render() {
 	    return (
-	      <div style={{width:"50%", textAlign: "center"}}>
+			<div style={{width:"40%",margin:"auto auto", marginTop:"30px",textAlign:"center"}}>
 	      	<form> 
-		      	<div>
+		      	<div style={{display:'inline-block'}}>
 		        	<label> Driver </label>
 		        	<input type="text"/>
 		     	</div>
