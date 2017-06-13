@@ -1,27 +1,38 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class List extends Component {
 	render() {
+		const tableRows = this.props.rides.map((ride) => {
+			return (
+				<tr key={ride.id}>
+					<td>{ride.date}</td>
+					<td>{ride.direction}</td>
+					<td>
+						<Link key={ride.id} to={`/ride/${ride.id}`}>
+							{ride.capacity - ride.passengers.length} of {ride.capacity}
+						</Link>
+					</td>
+					<td>{ride.driver}</td>
+				</tr>
+			)
+		})
 		return (
 			<div style={{textAlign:"center"}}>
 				<h1>Ride List</h1>
 				<button>Add Ride</button>
 				<table className="table" style={{width:"50%",margin:"auto auto"}}>
 					<thead>
-						<th>Date/Time</th>
-						<th>Depart From</th>
-						<th>Seats Available</th>
+						<tr>
+							<th>Date/Time</th>
+							<th>Depart From</th>
+							<th>Seats Available</th>
+							<th>Driver</th>
+						</tr>
 					</thead>
-					<tr>
-						<td>6/12 3:00pm</td>
-						<td>Franklin</td>
-						<td>2</td>
-					</tr>
-					<tr>
-						<td>6/12 4:00pm</td>
-						<td>Downtown</td>
-						<td>4</td>
-					</tr>
+					<tbody>
+					{tableRows}
+					</tbody>
 				</table>
 			</div>
 		);
