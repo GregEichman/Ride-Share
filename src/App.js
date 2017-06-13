@@ -7,6 +7,7 @@ import List from "./list";
 
 class App extends Component {
   state = {
+    user: {},
     rides: {}
   }
   
@@ -19,7 +20,7 @@ class App extends Component {
           <Route exact path="/" render={(props) => {
               return (
                 <div>
-                  <Login />
+                  <Login user={this.state.user}/>
                 </div>
               )}} />
           <Route exact path="/home" render={(props) => {
@@ -29,13 +30,7 @@ class App extends Component {
                 </div>
               )}} />
           <Route exact path="/ride/:id" render={ (props) => {
-              // console.log(props.match.params.id);
-              // console.log(`rides:`);
-              // console.log(rides);
               const ride = rides.find(item => item.id.toString()  === props.match.params.id)
-              // console.log(`Ride:`);
-              // console.log(ride);              
-              // console.log(`\n\n`);
               return (
                 <div>
                   <Ride ride={ride}/>

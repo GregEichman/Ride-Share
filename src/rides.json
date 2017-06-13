@@ -4,7 +4,7 @@
         "driver": "Jack Weisse",
         "date": "2017-06-15 09:30:00",
         "capacity": 4,
-        "direction": "F_to_DT",
+        "direction": "Franklin to Downtown",
         "notes": "Note for Jack's ride",
         "passengers": []
     },
@@ -13,7 +13,7 @@
         "driver": "Brad Aleckson",
         "date": "2017-06-16 13:30:00",
         "capacity": 6,
-        "direction": "F_to_DT",
+        "direction": "Franklin to Downtown",
         "notes": "Note for Brad's ride.  He has a sweet minivan, 13 years old and >201,000 miles!",
         "passengers": ["Keith Beste", "Greg Eichman"]
     }
