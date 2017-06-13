@@ -61,16 +61,23 @@ class App extends Component {
     // database.ref("riders").set(initRides);
     // database.ref("users").set(initUsers);
     database.ref("riders").once("value").then((snapshot)=>{
-      console.log(snapshot.val());
+      // console.log(snapshot.val());
     }).catch(console.log); 
     database.ref("users").once("value").then((snapshot)=>{
-      console.log(snapshot.val());
+      // console.log(snapshot.val());
     }).catch(console.log); 
   }
   
   state = {
-    user: {},
+    user: {id:{name:"not set"}},
     rides: {}
+  }
+
+  handleLogin = (user)=>{
+    console.log(user);
+    this.setState({
+      user
+    });
   }
 
   render() {
@@ -78,11 +85,12 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
+          <h1>{`hello ${this.state.user.id.name}`}</h1>
           <Header />
           <Route exact path="/" render={(props) => {
               return (
                 <div>
-                  <Login user={this.state.user}/>
+                  <Login user={this.state.user} handleLogin={this.handleLogin} />
                 </div>
               )}} />
           <Route exact path="/home" render={(props) => {

@@ -12,15 +12,26 @@ class Login extends Component {
 		this.setState({user: newUser});
 	}
 
+	stringChange = (str) =>{
+		let newStr = str.toLowerCase();
+		let idx = newStr.indexOf(" ");
+		while(idx !== -1) {
+			newStr = newStr.slice(0,idx)+newStr.slice(idx+1);
+			idx = newStr.indexOf(" ");
+		}
+		return newStr;
+	}
+
 	handleSubmit = (event) => {
 		event.preventDefault();
-		console.log('submit the form')
+		const id = this.stringChange(this.state.user.name);
+		this.props.handleLogin({id:this.state.user});
 	}
 
     componentWillMount() {
-		console.log(this.props.user);
+		// console.log(this.props.user);
 		const { user } = this.props;
-		console.log(user);
+		// console.log(user);
 		this.setState({user : user});
     }
 
