@@ -1,7 +1,20 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class List extends Component {
 	render() {
+		const tableRows = this.props.rides.map((ride) => {
+			return (
+					<Link key={ride.id} to={`/ride/${ride.id}`}>
+				<tr  key={ride.id}>
+						<td>{ride.date}</td>
+						<td>{ride.direction}</td>
+						<td>{ride.passengers.length} of {ride.capacity}</td>
+						<td>{ride.driver}</td>
+				</tr>
+					</Link>
+			)
+		})
 		return (
 			<div style={{textAlign:"center"}}>
 				<h1>Ride List</h1>
@@ -11,17 +24,9 @@ class List extends Component {
 						<th>Date/Time</th>
 						<th>Depart From</th>
 						<th>Seats Available</th>
+						<th>Driver</th>
 					</thead>
-					<tr>
-						<td>6/12 3:00pm</td>
-						<td>Franklin</td>
-						<td>2</td>
-					</tr>
-					<tr>
-						<td>6/12 4:00pm</td>
-						<td>Downtown</td>
-						<td>4</td>
-					</tr>
+					{tableRows}
 				</table>
 			</div>
 		);

@@ -5,7 +5,7 @@ class Login extends Component {
 		const labelStyle = {display:"inline-block",marginRight:"10px"};
 		return (
 			<div style={{width:"40%",margin:"auto auto", marginTop:"30px",textAlign:"center"}}>
-				<form style={{textAlign:"center"}}>
+				<form style={{textAlign:"center"}} action="/home">
 					<label style={labelStyle}>Name</label>
 					<input type="text" name="name" placeholder="Enter Name" style={{display:"inline-block",width:"80%"}} />
 					<div></div>
