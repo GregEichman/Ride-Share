@@ -5,14 +5,16 @@ class List extends Component {
 	render() {
 		const tableRows = this.props.rides.map((ride) => {
 			return (
-					<Link key={ride.id} to={`/ride/${ride.id}`}>
-				<tr  key={ride.id}>
-						<td>{ride.date}</td>
-						<td>{ride.direction}</td>
-						<td>{ride.passengers.length} of {ride.capacity}</td>
-						<td>{ride.driver}</td>
+				<tr key={ride.id}>
+					<td>{ride.date}</td>
+					<td>{ride.direction}</td>
+					<td>
+						<Link key={ride.id} to={`/ride/${ride.id}`}>
+							{ride.capacity - ride.passengers.length} of {ride.capacity}
+						</Link>
+					</td>
+					<td>{ride.driver}</td>
 				</tr>
-					</Link>
 			)
 		})
 		return (
@@ -21,12 +23,16 @@ class List extends Component {
 				<button>Add Ride</button>
 				<table className="table" style={{width:"50%",margin:"auto auto"}}>
 					<thead>
-						<th>Date/Time</th>
-						<th>Depart From</th>
-						<th>Seats Available</th>
-						<th>Driver</th>
+						<tr>
+							<th>Date/Time</th>
+							<th>Depart From</th>
+							<th>Seats Available</th>
+							<th>Driver</th>
+						</tr>
 					</thead>
+					<tbody>
 					{tableRows}
+					</tbody>
 				</table>
 			</div>
 		);

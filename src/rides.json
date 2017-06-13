@@ -15,6 +15,6 @@
         "capacity": 6,
         "direction": "F_to_DT",
         "notes": "Note for Brad's ride.  He has a sweet minivan, 13 years old and >201,000 miles!",
-        "passengers": []
+        "passengers": ["Keith Beste", "Greg Eichman"]
     }
 ]
