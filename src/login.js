@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 class Login extends Component {	
 	state = {
-		user: {}
+		user: {},
+		login: false
 	}
 
 	handleChange = (event) => 
@@ -26,6 +28,7 @@ class Login extends Component {
 		event.preventDefault();
 		const id = this.stringChange(this.state.user.name);
 		this.props.handleLogin({id:this.state.user});
+		this.setState({login: true});
 	}
 
     componentWillMount() {
@@ -36,6 +39,11 @@ class Login extends Component {
     }
 
 	render() {
+		if(this.state.login === true)
+		{
+			console.log('about to redirect')
+			return <Redirect to="/home" />
+		}
 		const labelStyle = {display:"inline-block",marginRight:"10px"};
 		return (
 			<div style={{width:"40%",margin:"auto auto", marginTop:"30px",textAlign:"center"}}>
