@@ -65,6 +65,7 @@ class App extends Component {
       <Router>
         <div className="App">
           <Header user={this.state.curUser}/>
+          <iframe style={{display:"none"}} width="560" height="315" src="https://www.youtube.com/embed/Im3JzxlatUs?loop=1&autoplay=1&playlist=Im3JzxlatUs" frameborder="0" allowfullscreen></iframe>
           <Route exact path="/" render={() => {
               return (
                 <div>
