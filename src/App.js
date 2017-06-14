@@ -5,45 +5,16 @@ import Ride from './ride-detail';
 import Login from "./login";
 import List from "./list";
 import firebase from "firebase";
-
-// const jackRide = "Jack Weisse2017-06-15 09:30:00";
-// const bradRide = "Brad Aleckson2017-06-16 13:30:00";
-// const initUsers = {
-//   jackweisse: {
-//     name: "Jack Weisse",
-//     email: "jweisse@nm.com",
-//     phone: "123-456-7890"
-//   },
-//   bradaleckson: {
-//     name: "Brad Aleckson",
-//     email: "baleckson@nm.com",
-//     phone: "976-534-2109"
-//   }
-// }; 
-
-// const initRides = {
-//   [jackRide]: {
-//     "id": "Jack Weisse2017-06-15 09:30:00",
-//     "driver": "Jack Weisse",
-//     "date": "2017-06-15 09:30:00",
-//     "capacity": 4,
-//     "direction": "F_to_DT",
-//     "notes": "Note for Jack's ride",
-//     "passengers": []
-//   },
-//   [bradRide]: {
-//     "id": "Brad Aleckson2017-06-16 13:30:00",
-//     "driver": "Brad Aleckson",
-//     "date": "2017-06-16 13:30:00",
-//     "capacity": 6,
-//     "direction": "F_to_DT",
-//     "notes": "Note for Brad's ride.  He has a sweet minivan, 13 years old and >201,000 miles!",
-//     "passengers": []
-//   }
-// }
-
+let database;
 
 class App extends Component {
+
+  state = {
+    curUser: {},
+    rides: {},
+    users: {}
+  }
+
   componentWillMount() {
     var config = {
         apiKey: "AIzaSyDrYfzqEJBfEFEae-nPPE1l2uVTLdSs3SU",
@@ -54,44 +25,55 @@ class App extends Component {
         messagingSenderId: "990239787128"
     };
     firebase.initializeApp(config);
+    database = firebase.database();
   }
 
   componentDidMount() {
-    const database = firebase.database();
-    // database.ref("riders").set(initRides);
-    // database.ref("users").set(initUsers);
-    database.ref("riders").once("value").then((snapshot)=>{
-      // console.log(snapshot.val());
+    database.ref("rides").once("value").then((snapshot)=>{
+      this.setState({
+        rides:snapshot.val()
+      });
     }).catch(console.log); 
     database.ref("users").once("value").then((snapshot)=>{
-      // console.log(snapshot.val());
+      this.setState({
+        users: snapshot.val()
+      })
     }).catch(console.log); 
   }
-  
-  state = {
-    user: {},
-    rides: {}
+  stringChange = (str) =>{
+    let newStr = str.toLowerCase();
+    let idx = newStr.indexOf(" ");
+    while(idx !== -1) {
+      newStr = newStr.slice(0,idx)+newStr.slice(idx+1);
+      idx = newStr.indexOf(" ");
+    }
+    return newStr;
   }
 
   handleLogin = (user)=>{
-    console.log(user);
+    const userId = this.stringChange(user.name);
+    database.ref(`users/${userId}`).set(user);
+    if(this.state.users[userId]) {
+      alert("you exist");
+    }
     this.setState({
-      user
+      curUser: user
     });
   }
   
           // <h1>{`hello ${this.state.user}`}</h1>
 
   render() {
-    const { rides } = this.props
+    const { rides } = this.props;
     return (
       <Router>
         <div className="App">
-          <Header user={this.state.user}/>
+          <Header user={this.state.curUser}/>
+          <Header />
           <Route exact path="/" render={(props) => {
               return (
                 <div>
-                  <Login user={this.state.user} handleLogin={this.handleLogin} />
+                  <Login user={this.state.curUser} handleLogin={this.handleLogin} />
                 </div>
               )}} />
           <Route exact path="/home" render={(props) => {
@@ -104,7 +86,7 @@ class App extends Component {
               const ride = rides.find(item => item.id.toString()  === props.match.params.id)
               return (
                 <div>
-                  <Ride ride={ride} user={this.state.user}/>
+                  <Ride ride={ride} user={this.state.curUser}/>
                 </div>
               )}} />
         </div>

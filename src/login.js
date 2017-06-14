@@ -7,6 +7,16 @@ class Login extends Component {
 		login: false
 	}
 
+	stringChange = (str) =>{
+	    let newStr = str.toLowerCase();
+	    let idx = newStr.indexOf(" ");
+	    while(idx !== -1) {
+	      newStr = newStr.slice(0,idx)+newStr.slice(idx+1);
+	      idx = newStr.indexOf(" ");
+	    }
+	    return newStr;
+	  }
+
 	handleChange = (event) => 
 	{
 		const {name, value} = event.target;
@@ -14,19 +24,8 @@ class Login extends Component {
 		this.setState({user: newUser});
 	}
 
-	stringChange = (str) =>{
-		let newStr = str.toLowerCase();
-		let idx = newStr.indexOf(" ");
-		while(idx !== -1) {
-			newStr = newStr.slice(0,idx)+newStr.slice(idx+1);
-			idx = newStr.indexOf(" ");
-		}
-		return newStr;
-	}
-
 	handleSubmit = (event) => {
 		event.preventDefault();
-		//const id = this.stringChange(this.state.user.name);
 		this.props.handleLogin(this.state.user);
 		this.setState({login: true});
 	}
