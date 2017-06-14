@@ -40,7 +40,6 @@ class App extends Component {
       })
     }).catch(console.log); 
   }
-
   stringChange = (str) =>{
     let newStr = str.toLowerCase();
     let idx = newStr.indexOf(" ");
@@ -61,12 +60,15 @@ class App extends Component {
       curUser: user
     });
   }
+  
+          // <h1>{`hello ${this.state.user}`}</h1>
 
   render() {
     const { rides } = this.props;
     return (
       <Router>
         <div className="App">
+          <Header user={this.state.curUser}/>
           <Header />
           <Route exact path="/" render={(props) => {
               return (
@@ -84,7 +86,7 @@ class App extends Component {
               const ride = rides.find(item => item.id.toString()  === props.match.params.id)
               return (
                 <div>
-                  <Ride ride={ride}/>
+                  <Ride ride={ride} user={this.state.curUser}/>
                 </div>
               )}} />
         </div>

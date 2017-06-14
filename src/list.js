@@ -25,7 +25,7 @@ class List extends Component {
 					<thead>
 						<tr>
 							<th>Date/Time</th>
-							<th>Depart From</th>
+							<th>Direction</th>
 							<th>Seats Available</th>
 							<th>Driver</th>
 						</tr>
