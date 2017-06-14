@@ -26,8 +26,8 @@ class Login extends Component {
 
 	handleSubmit = (event) => {
 		event.preventDefault();
-		const id = this.stringChange(this.state.user.name);
-		this.props.handleLogin({id:this.state.user});
+		//const id = this.stringChange(this.state.user.name);
+		this.props.handleLogin(this.state.user);
 		this.setState({login: true});
 	}
 

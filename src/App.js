@@ -69,7 +69,7 @@ class App extends Component {
   }
   
   state = {
-    user: {id:{name:"not set"}},
+    user: {},
     rides: {}
   }
 
@@ -79,14 +79,15 @@ class App extends Component {
       user
     });
   }
+  
+          // <h1>{`hello ${this.state.user}`}</h1>
 
   render() {
     const { rides } = this.props
     return (
       <Router>
         <div className="App">
-          <h1>{`hello ${this.state.user.id.name}`}</h1>
-          <Header />
+          <Header user={this.state.user}/>
           <Route exact path="/" render={(props) => {
               return (
                 <div>
@@ -103,7 +104,7 @@ class App extends Component {
               const ride = rides.find(item => item.id.toString()  === props.match.params.id)
               return (
                 <div>
-                  <Ride ride={ride}/>
+                  <Ride ride={ride} user={this.state.user}/>
                 </div>
               )}} />
         </div>
