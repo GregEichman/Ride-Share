@@ -15,7 +15,7 @@ class Ride extends Component {
 		event.preventDefault();
 		const newRide = Object.assign({}, this.state.ride);
 		console.log(this.props.user.name);
-		newRide.passengers.push(this.props.user.name);
+		newRide.passengers.push(this.props.user.id);
 		this.setState({ride: newRide})
 	}
 	handleRemovePassenger = (event) => {
@@ -28,8 +28,8 @@ class Ride extends Component {
 	}
 	render() {
 		const passengerList = this.state.ride.passengers.map((item, index) => {
-			let control = (<li key={item}>{item}&nbsp;&nbsp; 
-					{item === this.props.user.name ? <span style={{backgroundColor:'red', borderRadius:'50%', color:'white', padding:'3px 6px'}}data={index} onClick={this.handleRemovePassenger}>x</span> : ''}
+			let control = (<li key={item}>{this.props.users[item].name}&nbsp;&nbsp; 
+					{item === this.props.user.id ? <span style={{backgroundColor:'red', borderRadius:'50%', color:'white', padding:'3px 6px'}}data={index} onClick={this.handleRemovePassenger}>x</span> : ''}
 					</li>				)
 			return control
 		})
@@ -39,8 +39,8 @@ class Ride extends Component {
 		// console.log(this.state.ride.passengers.findIndex(item => item === this.props.user.name));
 		let buttonDisplay = ''
 		if(this.state.ride.capacity > this.state.ride.passengers.length 
-			&& (this.state.ride.passengers.findIndex(item => item === this.props.user.name) < 0)
-			&& (this.state.ride.driver !== this.props.user.name))
+			&& (this.state.ride.passengers.findIndex(item => item === this.props.user.id) < 0)
+			&& (this.state.ride.driver !== this.props.user.id))
 		{
 			buttonDisplay = <button onClick={this.handleAddMeClick}>Add Me</button>
 		}
@@ -77,9 +77,9 @@ class Ride extends Component {
 		     	</div>
 		      	<div>
 				  	<Link to="/home">
-					  	<button>Return</button>
+					  	<button>Return to List</button>
 					</Link>
-		        	
+				  	<button>Save Changes</button>		        	
 		     	</div>
 	     	</form>
 
