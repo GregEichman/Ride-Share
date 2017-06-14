@@ -40,6 +40,7 @@ class App extends Component {
       })
     }).catch(console.log); 
   }
+
   stringChange = (str) =>{
     let newStr = str.toLowerCase();
     let idx = newStr.indexOf(" ");
@@ -53,33 +54,27 @@ class App extends Component {
   handleLogin = (user)=>{
     const userId = this.stringChange(user.name);
     database.ref(`users/${userId}`).set(user);
-    if(this.state.users[userId]) {
-      alert("you exist");
-    }
     this.setState({
       curUser: user
     });
   }
-  
-          // <h1>{`hello ${this.state.user}`}</h1>
 
   render() {
-    const { rides } = this.props;
+    const { rides } = this.state;
     return (
       <Router>
         <div className="App">
           <Header user={this.state.curUser}/>
-          <Header />
-          <Route exact path="/" render={(props) => {
+          <Route exact path="/" render={() => {
               return (
                 <div>
                   <Login user={this.state.curUser} handleLogin={this.handleLogin} />
                 </div>
               )}} />
-          <Route exact path="/home" render={(props) => {
+          <Route exact path="/home" render={() => {
               return (
                 <div>
-                  <List rides={this.props.rides}/>
+                  <List rides={this.state.rides}/>
                 </div>
               )}} />
           <Route exact path="/ride/:id" render={ (props) => {

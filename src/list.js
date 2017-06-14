@@ -3,20 +3,25 @@ import { Link } from 'react-router-dom';
 
 class List extends Component {
 	render() {
-		const tableRows = this.props.rides.map((ride) => {
+		const helper = [];
+		for(let ride in this.props.rides) {
+			helper.push(this.props.rides[ride]);
+		}
+		const tableRows = helper.map((ride) => {
 			return (
 				<tr key={ride.id}>
 					<td>{ride.date}</td>
 					<td>{ride.direction}</td>
 					<td>
 						<Link key={ride.id} to={`/ride/${ride.id}`}>
-							{ride.capacity - ride.passengers.length} of {ride.capacity}
+							{ride.capacity - (ride.passengers ? ride.passengers.length : 0)} of {ride.capacity}
 						</Link>
 					</td>
 					<td>{ride.driver}</td>
 				</tr>
 			)
 		})
+
 		return (
 			<div style={{textAlign:"center"}}>
 				<h1>Ride List</h1>
