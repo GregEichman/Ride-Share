@@ -42,6 +42,9 @@ class App extends Component {
   }  
   
   stringChange = (str) =>{
+    if(str === "" || str === undefined) {
+      return str;
+    }
     let newStr = str.toLowerCase();
     let idx = newStr.indexOf(" ");
     while(idx !== -1) {
@@ -66,15 +69,18 @@ class App extends Component {
         return Object.assign({},this.state.rides[rTemp]);
       }
     }
-    return false;
+    return null;
   }
 
-  handleSave = (rideId,pasList) => {
-    console.log(pasList);
-    const ride = this.state.rides[rideId];
-    ride.passengers = pasList.slice();
-    database.ref(`/rides/${rideId}`).set(ride);
+  handleSave = (ride) => {
+    console.log(ride.driver,ride.date);
+    ride.id = ride.driver+ride.date;
+    ride.passengers = ride.passengers.map((cur)=>{
+      return this.stringChange(cur);
+    });
+    database.ref(`/rides/${ride.id}`).set(ride);
     database.ref("rides").once("value").then((snapshot)=>{
+      console.log(snapshot.val());
       this.setState({
         rides:snapshot.val()
       });
@@ -100,9 +106,9 @@ class App extends Component {
                   <List rides={this.state.rides} users={this.state.users} />
                 </div>
               )}} />
-          <Route exact path="/ride/:id" render={ (props) => {
-            // console.log(props.match.params.id);
-              const ride = this.findRide(props.match.params.id)
+          <Route path="/ride/:id" render={ (props) => {
+              // console.log(props.match.params.id);
+              const ride = this.findRide(props.match.params.id);
               return (
                 <div>
                   <Ride ride={ride} user={this.state.curUser} users={this.state.users} handleSave={this.handleSave} />

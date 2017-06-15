@@ -1,23 +1,36 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 
 class List extends Component {
 	state = {
-		rideHelper: []
+		rideHelper: [],
+		addingRide: false
 	}
-	
+
 	componentWillMount() {
 		const helper = [];
 		for(let ride in this.props.rides) {
 			helper.push(this.props.rides[ride]);
 		}
 		this.setState({
-			rideHelper: helper
+			rideHelper: helper,
+			addingRide: false
+		});
+	}
+
+	addRide = (event) => {
+		event.preventDefault();
+		this.setState({
+			addingRide: true
 		});
 	}
 
 	render() {
+		if(this.state.addingRide) {
+			return <Redirect to="/ride/new" />
+		}
+		
 		const tableRows = this.state.rideHelper.map((ride) => {
 			return (
 				<tr key={ride.id}>
@@ -36,7 +49,7 @@ class List extends Component {
 		return (
 			<div style={{textAlign:"center"}}>
 				<h1>Ride List</h1>
-				<button>Add Ride</button>
+				<button onClick={this.addRide}>Add Ride</button>
 				<table className="table" style={{width:"50%",margin:"auto auto"}}>
 					<thead>
 						<tr>
