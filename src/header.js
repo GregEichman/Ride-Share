@@ -3,7 +3,7 @@ import React from 'react'
 const Header = (props) => {
     
    const loggedInUser = () => {
-            if(props.user)
+            if(props.user.name)
                 return <div>logged in as: {props.user.name}</div>
         }
     return (
