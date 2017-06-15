@@ -7,7 +7,7 @@ class Ride extends Component {
 	}
 
     componentWillMount() {
-		console.log(this.props.ride);
+		// console.log(this.props.ride);
 		const { ride } = this.props;
 		if(ride.passengers === undefined) {
 			ride.passengers = [];
@@ -17,33 +17,42 @@ class Ride extends Component {
 	handleAddMeClick = (event) => {
 		event.preventDefault();
 		const newRide = Object.assign({}, this.state.ride);
-		console.log(this.props.user.name);
-		newRide.passengers.push(this.props.user.name);
+		// console.log(this.props.user.name);
+		newRide.passengers.push(this.props.user.id);
 		this.setState({ride: newRide})
 	}
 	handleRemovePassenger = (event) => {
 		event.preventDefault();
 		const newRide = Object.assign({}, this.state.ride);
-		console.log(event.target.getAttribute('data'));
+		// console.log(event.target.getAttribute('data'));
 		const pos = event.target.getAttribute('data')
 		newRide.passengers.splice(pos, 1);
 		this.setState({ride: newRide})
 	}
+	handleSave = (event) => {
+		event.preventDefault();
+		this.props.handleSave(this.props.ride.id,this.state.ride.passengers);
+	}
 	render() {
-		const passengerList = this.state.ride.passengers.map((item, index) => {
-			let control = (<li key={item}>{item}&nbsp;&nbsp; 
-					{item === this.props.user.name ? <span style={{backgroundColor:'red', borderRadius:'50%', color:'white', padding:'3px 6px'}}data={index} onClick={this.handleRemovePassenger}>x</span> : ''}
-					</li>				)
+		let pL = this.state.ride.passengers;
+		if(!pL) {
+			pL = [];
+		}
+		const passengerList = pL.map((item, index) => {
+			let control = (<li key={item}>{this.props.users[item].name}&nbsp;&nbsp; 
+					{item === this.props.user.id ? <span style={{backgroundColor:'red', borderRadius:'50%', color:'white', padding:'3px 6px'}}data={index} onClick={this.handleRemovePassenger}>x</span> : ''}
+					</li>				
+				)
 			return control
 		})
 		// console.log('findIndex result:');
 		// console.log(this.state.ride.passengers);
-		// console.log(this.props.user.name);
+		// console.log(this.props.user);
 		// console.log(this.state.ride.passengers.findIndex(item => item === this.props.user.name));
 		let buttonDisplay = ''
 		if(this.state.ride.capacity > this.state.ride.passengers.length 
-			&& (this.state.ride.passengers.findIndex(item => item === this.props.user.name) < 0)
-			&& (this.state.ride.driver !== this.props.user.name))
+			&& (this.state.ride.passengers.findIndex(item => item === this.props.user.id) < 0)
+			&& (this.state.ride.driver !== this.props.user.id))
 		{
 			buttonDisplay = <button onClick={this.handleAddMeClick}>Add Me</button>
 		}
@@ -53,7 +62,7 @@ class Ride extends Component {
 	      	<form > 
 		      	<div>
 		        	<label>Driver</label>
-		        	<input type="text" value={this.state.ride.driver}/>
+		        	<input type="text" value={this.props.users[this.state.ride.driver].name}/>
 		     	</div>
 		     	<div>
 		        	<label>Direction</label>
@@ -82,7 +91,7 @@ class Ride extends Component {
 				  	<Link to="/home">
 					  	<button>Return</button>
 					</Link>
-		        	
+					<button onClick={this.handleSave}>Save</button>		        	
 		     	</div>
 	     	</form>
 
