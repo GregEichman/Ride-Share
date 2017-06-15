@@ -9,6 +9,9 @@ class Ride extends Component {
     componentWillMount() {
 		console.log(this.props.ride);
 		const { ride } = this.props;
+		if(ride.passengers === undefined) {
+			ride.passengers = [];
+		}
 		this.setState({ride : ride})
     }
 	handleAddMeClick = (event) => {
@@ -54,9 +57,9 @@ class Ride extends Component {
 		     	</div>
 		     	<div>
 		        	<label>Direction</label>
-		        	<input type="radio" name="direction" id="F_to_DT" value="Franklin to Downtown" checked={this.state.ride.direction === "Franklin to Downtown" ? "checked" : ""}/> <label htmlFor="F_to_DT" > Franklin to Downtown </label>
+		        	<input type="radio" name="direction" id="F_to_DT" value="Franklin to Downtown" readOnly checked={this.state.ride.direction === "Franklin to Downtown" ? "checked" : ""}/> <label htmlFor="F_to_DT" > Franklin to Downtown </label>
 		        	<br/>
-					<input type="radio" name="direction" id="DT_to_F" value="Downtown to Franklin" checked={this.state.ride.direction === "Downtown to Franklin" ? "checked" : ""}/> <label htmlFor="DT_to_F" > Downtown to Franklin </label>		        	
+					<input type="radio" name="direction" id="DT_to_F" value="Downtown to Franklin" readOnly checked={this.state.ride.direction === "Downtown to Franklin" ? "checked" : ""}/> <label htmlFor="DT_to_F" > Downtown to Franklin </label>		        	
 		     	</div>
 		      	<div>
 		        	<label>Time</label>
