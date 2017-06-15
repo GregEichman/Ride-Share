@@ -66,7 +66,7 @@ class App extends Component {
         return Object.assign({},this.state.rides[rTemp]);
       }
     }
-    return false;
+    return null;
   }
 
   handleSave = (rideId,pasList) => {
@@ -100,9 +100,9 @@ class App extends Component {
                   <List rides={this.state.rides} users={this.state.users} />
                 </div>
               )}} />
-          <Route exact path="/ride/:id" render={ (props) => {
-            // console.log(props.match.params.id);
-              const ride = this.findRide(props.match.params.id)
+          <Route path="/ride/:id" render={ (props) => {
+              console.log(props.match.params.id);
+              const ride = this.findRide(props.match.params.id);
               return (
                 <div>
                   <Ride ride={ride} user={this.state.curUser} users={this.state.users} handleSave={this.handleSave} />
