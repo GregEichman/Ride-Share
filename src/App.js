@@ -59,12 +59,22 @@ class App extends Component {
     });
   }
 
+  findRide = (ride)=>{
+    for(let rTemp in this.state.rides) {
+      if(ride === rTemp) {
+        return this.state.rides[rTemp];
+      }
+    }
+    return false;
+  }
+
   render() {
-    const { rides } = this.state;
+    // <iframe style={{display:"none"}} src="https://www.youtube.com/embed/Im3JzxlatUs?loop=1&autoplay=1&playlist=Im3JzxlatUs"></iframe>
     return (
       <Router>
         <div className="App">
           <Header user={this.state.curUser}/>
+          <iframe title="Cars" style={{display:"none"}} src="https://www.youtube.com/embed/Im3JzxlatUs?loop=1&autoplay=1&playlist=Im3JzxlatUs"></iframe>
           <Route exact path="/" render={() => {
               return (
                 <div>
@@ -78,7 +88,8 @@ class App extends Component {
                 </div>
               )}} />
           <Route exact path="/ride/:id" render={ (props) => {
-              const ride = rides.find(item => item.id.toString()  === props.match.params.id)
+            console.log(props.match.params.id);
+              const ride = this.findRide(props.match.params.id)
               return (
                 <div>
                   <Ride ride={ride} user={this.state.curUser}/>
