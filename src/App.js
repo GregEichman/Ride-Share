@@ -12,7 +12,7 @@ class App extends Component {
   state = {
     curUser: {
       id: "bradaleckson",
-      name: "Brad Aleckson"      
+      name: "Brad Aleckson"
     },
     rides: {},
     users: {}
@@ -42,8 +42,7 @@ class App extends Component {
         users: snapshot.val()
       })
     }).catch(console.log); 
-  }
-  stringChange = (str) =>{
+  }  stringChange = (str) =>{
     let newStr = str.toLowerCase();
     let idx = newStr.indexOf(" ");
     while(idx !== -1) {
@@ -64,8 +63,6 @@ class App extends Component {
     });
   }
   
-          // <h1>{`hello ${this.state.user}`}</h1>
-
   render() {
     // const { rides } = this.props;
     return (

@@ -14,7 +14,7 @@ class Ride extends Component {
 	handleAddMeClick = (event) => {
 		event.preventDefault();
 		const newRide = Object.assign({}, this.state.ride);
-		console.log(this.props.user.name);
+		// console.log(this.props.user.name);
 		newRide.passengers.push(this.props.user.id);
 		this.setState({ride: newRide})
 	}
