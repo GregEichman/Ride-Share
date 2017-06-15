@@ -7,14 +7,25 @@ class Ride extends Component {
 	}
 
     componentWillMount() {
-		console.log(this.props.ride);
+		// console.log(this.props.ride);
 		const { ride } = this.props;
 		let newRide;
+		let dt = new Date();
+		const formattedDate = (dt.getFullYear() + '-' 
+			+ ('00' + (dt.getMonth() + 1)).slice(-2) + '-' 
+			+ ('00' + dt.getDay()).slice(-2) + 'T' 
+			+ ('00' + dt.getHours()).slice(-2) + ':' 
+			+ ('00' + dt.getMinutes()).slice(-2))
 		if(ride === null) {
 			newRide = {};
+			newRide.date = formattedDate;
+			newRide.driver = this.props.user.id;
 			newRide.passengers = [];
 		} else {
 			newRide = Object.assign({},ride);
+			if(!ride.passengers) {
+				newRide.passengers = [];
+			}
 		}
 		this.setState({ride : newRide})
     }
@@ -35,7 +46,14 @@ class Ride extends Component {
 	}
 	handleSave = (event) => {
 		event.preventDefault();
-		this.props.handleSave(this.props.ride.id,this.state.ride.passengers);
+		const newRide = Object.assign({},this.state.ride);
+		this.props.handleSave(newRide,this.state.ride.passengers);
+	}
+	handleChange = (event) => 
+	{
+		const {name, value} = event.target;
+		let newRide = Object.assign({}, this.state.ride, {[name]: value})
+		this.setState({ride: newRide});
 	}
 	setPage = ()=>{
 		if(this.props.ride !== null) {
@@ -55,6 +73,7 @@ class Ride extends Component {
 			// console.log(this.props.user);
 			// console.log(this.state.ride.passengers.findIndex(item => item === this.props.user.name));
 			let buttonDisplay = ''
+			console.log(this.state.ride);
 			if(this.state.ride.capacity > this.state.ride.passengers.length 
 				&& (this.state.ride.passengers.findIndex(item => item === this.props.user.id) < 0)
 				&& (this.state.ride.driver !== this.props.user.id))
@@ -103,8 +122,42 @@ class Ride extends Component {
 		      </div>
 		    );
 		} else {
-			console.log("no ride");
-			return <h1>NO RIDE</h1>
+			// console.log("no ride");
+			return (
+				<div style={{width:"40%",margin:"auto auto", marginTop:"30px",textAlign:"center"}}>
+		      	<form > 
+			      	<div>
+			        	<label>Driver</label>
+			        	<input type="text" value={this.props.user.name} />
+			     	</div>
+			     	<div>
+			        	<label>Direction</label>
+			        	<input type="radio" name="direction" id="F_to_DT" value="Franklin to Downtown" onChange={this.handleChange} /> <label htmlFor="F_to_DT" > Franklin to Downtown </label>
+			        	<br/>
+						<input type="radio" name="direction" id="DT_to_F" value="Downtown to Franklin" onChange={this.handleChange} /> <label htmlFor="DT_to_F" > Downtown to Franklin </label>		        	
+			     	</div>
+			      	<div>
+			        	<label>Time</label>
+			        	<input type="datetime-local" name="date" value={this.state.ride.date} onChange={this.handleChange} />
+			     	</div>
+			      	<div>
+						<label>Seats</label>
+						<input type="text" name="capacity" value={this.state.ride.capacity} onChange={this.handleChange} />
+			     	</div>
+			      	<div>
+			        	<label> Notes </label>
+			        	<textarea cols="45" rows="10" name="notes" value={this.state.ride.notes} onChange={this.handleChange} style={{backgroundColor:"white",color:"black"}}></textarea>
+			     	</div>
+			      	<div>
+					  	<Link to="/home">
+						  	<button>Return</button>
+						</Link>
+						<button onClick={this.handleSave}>Save</button>		        	
+			     	</div>
+		     	</form>
+
+		      </div>
+		    );
 		}
 	}
 	render() {

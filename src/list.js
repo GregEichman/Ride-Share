@@ -13,7 +13,8 @@ class List extends Component {
 			helper.push(this.props.rides[ride]);
 		}
 		this.setState({
-			rideHelper: helper
+			rideHelper: helper,
+			addingRide: false
 		});
 	}
 
@@ -25,6 +26,10 @@ class List extends Component {
 	}
 
 	render() {
+		if(this.state.addingRide) {
+			return <Redirect to="/ride/new" />
+		}
+		
 		const tableRows = this.state.rideHelper.map((ride) => {
 			return (
 				<tr key={ride.id}>
@@ -39,10 +44,6 @@ class List extends Component {
 				</tr>
 			)
 		})
-
-		if(this.state.addingRide) {
-			return <Redirect to="/ride/new" />
-		}
 
 		return (
 			<div style={{textAlign:"center"}}>
