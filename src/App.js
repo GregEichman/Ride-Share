@@ -53,27 +53,35 @@ class App extends Component {
 
   handleLogin = (user)=>{
     const userId = this.stringChange(user.name);
-    database.ref(`users/${userId}`).set(user);
-    // if(this.state.users[userId]) {
-    //   alert("you exist");
-    // }
+    const curUser = Object.assign({},user,{id:userId});
+    database.ref(`users/${userId}`).set(curUser);
     this.setState({
-      curUser: user
+      curUser: curUser
     });
   }
 
   findRide = (ride)=>{
     for(let rTemp in this.state.rides) {
       if(ride === rTemp) {
-        return this.state.rides[rTemp];
+        return Object.assign({},this.state.rides[rTemp]);
       }
     }
     return false;
   }
 
-  render() {
-    //const { rides } = this.state;
+  handleSave = (rideId,pasList) => {
+    console.log(pasList);
+    const ride = this.state.rides[rideId];
+    ride.passengers = pasList.slice();
+    database.ref(`/rides/${rideId}`).set(ride);
+    database.ref("rides").once("value").then((snapshot)=>{
+      this.setState({
+        rides:snapshot.val()
+      });
+    }).catch(console.log);
+  }
 
+  render() {
     return (
       <Router>
         <div className="App">
@@ -89,21 +97,15 @@ class App extends Component {
               console.log(this.state.rides)
               return (
                 <div>
-                  <List rides={this.state.rides}/>
+                  <List rides={this.state.rides} users={this.state.users} />
                 </div>
               )}} />
-          <Route path="/ride/:id" render={ (props) => {
-              // const ride = rides.find(item => item.id.toString()  === props.match.params.id)              
-              // console.log(this)
-              // console.log(this.state.rides)
-              // const ride = this.state.rides['keithbeste2017-06-16 16:30:00']; //.find(item => item.id.toString()  === props.match.params.id)
-              // console.log("App.js ride:")
-              // console.log(ride)
-              console.log(props.match.params.id);
+          <Route exact path="/ride/:id" render={ (props) => {
+            // console.log(props.match.params.id);
               const ride = this.findRide(props.match.params.id)
               return (
                 <div>
-                  <Ride ride={ride} user={this.state.curUser} users={this.state.users}/>
+                  <Ride ride={ride} user={this.state.curUser} users={this.state.users} handleSave={this.handleSave} />
                 </div>
               )}} />
         </div>
