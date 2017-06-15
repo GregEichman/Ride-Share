@@ -2,12 +2,22 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class List extends Component {
-	render() {
+	state = {
+		rideHelper: []
+	}
+	
+	componentWillMount() {
 		const helper = [];
 		for(let ride in this.props.rides) {
 			helper.push(this.props.rides[ride]);
 		}
-		const tableRows = helper.map((ride) => {
+		this.setState({
+			rideHelper: helper
+		});
+	}
+
+	render() {
+		const tableRows = this.state.rideHelper.map((ride) => {
 			return (
 				<tr key={ride.id}>
 					<td>{ride.date}</td>
@@ -17,7 +27,7 @@ class List extends Component {
 							{ride.capacity - (ride.passengers ? ride.passengers.length : 0)} of {ride.capacity}
 						</Link>
 					</td>
-					<td>{ride.driver}</td>
+					<td>{this.props.users[ride.driver].name}</td>
 				</tr>
 			)
 		})

@@ -44,7 +44,7 @@ class Login extends Component {
 	render() {
 		if(this.state.login === true)
 		{
-			console.log('about to redirect')
+			// console.log('about to redirect')
 			return <Redirect to="/home" />
 		}
 		const labelStyle = {display:"inline-block",marginRight:"10px"};

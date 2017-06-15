@@ -53,19 +53,32 @@ class App extends Component {
 
   handleLogin = (user)=>{
     const userId = this.stringChange(user.name);
-    database.ref(`users/${userId}`).set(user);
+    const curUser = Object.assign({},user,{id:userId});
+    database.ref(`users/${userId}`).set(curUser);
     this.setState({
-      curUser: user
+      curUser: curUser
     });
   }
 
   findRide = (ride)=>{
     for(let rTemp in this.state.rides) {
       if(ride === rTemp) {
-        return this.state.rides[rTemp];
+        return Object.assign({},this.state.rides[rTemp]);
       }
     }
     return false;
+  }
+
+  handleSave = (rideId,pasList) => {
+    console.log(pasList);
+    const ride = this.state.rides[rideId];
+    ride.passengers = pasList.slice();
+    database.ref(`/rides/${rideId}`).set(ride);
+    database.ref("rides").once("value").then((snapshot)=>{
+      this.setState({
+        rides:snapshot.val()
+      });
+    }).catch(console.log);
   }
 
   render() {
@@ -84,15 +97,15 @@ class App extends Component {
           <Route exact path="/home" render={() => {
               return (
                 <div>
-                  <List rides={this.state.rides}/>
+                  <List rides={this.state.rides} users={this.state.users} />
                 </div>
               )}} />
           <Route exact path="/ride/:id" render={ (props) => {
-            console.log(props.match.params.id);
+            // console.log(props.match.params.id);
               const ride = this.findRide(props.match.params.id)
               return (
                 <div>
-                  <Ride ride={ride} user={this.state.curUser}/>
+                  <Ride ride={ride} user={this.state.curUser} users={this.state.users} handleSave={this.handleSave} />
                 </div>
               )}} />
         </div>
